@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Title</title>
+        <style>
+            @-webkit-keyframes pulse {
+                0% {
+                    -webkit-transform: scale(0)
+                }
+
+                33% {
+                    -webkit-transform: scale(0.3)
+                    opacity: 0.3;
+                }
+
+                66% {
+                    -webkit-transform: scale(0.6)
+                    opacity: 0.6;
+                }
+
+                100% {
+                    -webkit-transform: scale(1);
+                    opacity: 0
+                }
+            }
+
+            @-ms-keyframes pulse {
+                0% {
+                    -ms-transform: scale(0)
+                }
+
+                100% {
+                    -webkit-transform: scale(1);
+                    opacity: 0
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0)
+                }
+
+                100% {
+                    -webkit-transform: scale(1);
+                    opacity: 0
+                }
+            }
+            body {
+                /*background-color: rgba(255, 0, 0, 0.3);*/
+            }
+
+            .cj-container {
+                display: block;
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                /*border: 1px solid red;*/
+                border-radius: 50%;
+                /*background-color: rgba(101, 155, 235, 1)*/
+                z-index: 1;
+            }
+            .cj-container:hover {
+                cursor: pointer;
+            }
+
+            .cj-container .cj-inner1,
+            .cj-container .cj-inner2 {
+                border-radius: 50%;
+                border: 50px solid rgba(101, 155, 235, 1);
+                /*background-color: transparent;*/
+                /*box-shadow: 0 0 5px #000;*/
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                -webkit-animation: pulse 2s infinite;
+                -ms-animation: pulse 2s infinite;
+                animation: pulse 2s infinite;
+                transform-origin:center center;
+            }
+
+            .cj-container .cj-inner2 {
+                -webkit-animation-delay: -1s;
+                -ms-animation-delay: -1s;
+                animation-delay: -1s
+            }
+
+            .cj-track {
+                border-top: 2px solid #c35a20;
+                left: 421px;
+                top: 373px;
+                position: relative;
+                padding: 2px 0;
+                clear: both;
+                display: block;
+                overflow: hidden;
+                width: 0;
+                z-index: 2;
+            }
+
+            .cj-move-guide {
+                border-top: 2px solid #3fbbed;
+                height: 1px;
+                padding: 2px 0;
+                clear: both;
+                display: block;
+                overflow: hidden;
+                left: 480px;
+                top: 367px;
+                position: relative;
+                width: 500px;
+                z-index: 1;
+            }
+
+            .cj-move-guide-arrow {
+                border: 10px solid transparent;
+                border-left: 20px solid #3fbbed;
+                width: 0;
+                height: 0px;
+                left: 980px;
+                top: 351px;
+                position: relative;
+                z-index: 1;
+            }
+
+        </style>
+        <!-- // <script src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_f2fb5194.js"></script> -->
+        <script src="./lib/jquery-1.10.2.min.js"></script>
+        <script src="./lib/ig.js"></script>
+    </head>
+    <body>
+        <div class="cj-track"></div>
+        <div class="cj-move-guide"></div>
+        <div class="cj-move-guide-arrow"></div>
+        <a class="cj-container" style="left: 405px; top: 356px;">
+            <div class="cj-inner1"></div>
+            <div class="cj-inner2"></div>
+        </a>
+        <!-- <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> -->
+        <canvas id="cj-canvas"></canvas>
+        <script src="./game.js"></script>
+        <script src="./index.js"></script>
+    </body>
+</html>
