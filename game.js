@@ -20,12 +20,7 @@ var game = (function () {
         maxHeight: 400,
         resource: [
             {id: 'spritesImg1', src: './img/sprites1.gif'},
-            // {id: 'spritesImg', src: './img/sprites.png'},
-            // {id: 'spritesImg1', src: './img/sprites1.png'},
-            // {id: 'boomImg', src: './img/boom.png'},
-            // {id: 'spritesData', src: './data/sprites.json'},
-            // {id: 'spritesData1', src: './data/sprites1.json'},
-            // {id: 'boomData', src: './data/boom.json'},
+            {id: 'spritesData1', src: './data/sprites1.json'}
         ]
     }).on('loadResProcess', function (e) {
     }).on('loadResDone', function (e) {
@@ -273,6 +268,33 @@ var game = (function () {
     var cloudControl = (function () {
         var guid = 0;
 
+        /**
+         * 设置动画
+         */
+        function _setAnimate() {
+            this.setAnimate({
+                target: {
+                    alpha: 1
+                },
+                duration: 1000
+            });
+        }
+
+        /**
+         * step update
+         */
+        function _step(dt, stepCount, requestID) {
+            this.vx += this.ax * dt;
+            this.vx *= this.frictionX * dt;
+            this.vy += this.ay * dt;
+            this.vy *= this.frictionY * dt;
+
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+
+            this.move(this.x, this.y);
+        }
+
         var cloud = {};
 
         /**
@@ -297,31 +319,17 @@ var game = (function () {
                 sHeight: 24,
                 zIndex: 10,
                 alpha: 0,
-                vx: -1
+                vx: -0.3
             });
 
-            cloud1.setAnimate({
-                target: {
-                    alpha: 1
-                },
-                duration: 2000,
-                completeFunc: function () {
-                }
-            });
+            _setAnimate.call(cloud1);
+
             cloud1.step = function (dt, stepCount, requestID) {
-                this.vx += this.ax * dt;
-                this.vx *= this.frictionX * dt;
-                this.vy += this.ay * dt;
-                this.vy *= this.frictionY * dt;
-
-                this.x += this.vx * dt;
-                this.y += this.vy * dt;
-
+                _step.call(this, dt, stepCount, requestID);
                 if (this.x + this.width < 0) {
                     cjStage.addDisplayObject(cloud.create1(cjGame.width, this.y));
                     this.setStatus(STATUS.DESTROYED);
                 }
-                this.move(this.x, this.y);
             };
             return cloud1;
         };
@@ -348,31 +356,17 @@ var game = (function () {
                 sHeight: 24,
                 zIndex: 10,
                 alpha: 0,
-                vx: -1,
+                vx: -0.3,
             });
 
-            cloud2.setAnimate({
-                target: {
-                    alpha: 1
-                },
-                duration: 2000,
-                completeFunc: function () {
-                }
-            });
+            _setAnimate.call(cloud2);
+
             cloud2.step = function (dt, stepCount, requestID) {
-                this.vx += this.ax * dt;
-                this.vx *= this.frictionX * dt;
-                this.vy += this.ay * dt;
-                this.vy *= this.frictionY * dt;
-
-                this.x += this.vx * dt;
-                this.y += this.vy * dt;
-
+                _step.call(this, dt, stepCount, requestID);
                 if (this.x + this.width < 0) {
                     cjStage.addDisplayObject(cloud.create2(cjGame.width, this.y));
                     this.setStatus(STATUS.DESTROYED);
                 }
-                this.move(this.x, this.y);
             };
             return cloud2;
         };
@@ -399,32 +393,17 @@ var game = (function () {
                 sHeight: 24,
                 zIndex: 10,
                 alpha: 0,
-                vx: -1
+                vx: -0.3
             });
 
-            cloud3.setAnimate({
-                target: {
-                    alpha: 1
-                },
-                duration: 2000,
-                completeFunc: function () {
-                }
-            });
+            _setAnimate.call(cloud3);
 
             cloud3.step = function (dt, stepCount, requestID) {
-                this.vx += this.ax * dt;
-                this.vx *= this.frictionX * dt;
-                this.vy += this.ay * dt;
-                this.vy *= this.frictionY * dt;
-
-                this.x += this.vx * dt;
-                this.y += this.vy * dt;
-
+                _step.call(this, dt, stepCount, requestID);
                 if (this.x + this.width < 0) {
                     cjStage.addDisplayObject(cloud.create3(cjGame.width, this.y));
                     this.setStatus(STATUS.DESTROYED);
                 }
-                this.move(this.x, this.y);
             };
             return cloud3;
         };
@@ -437,7 +416,7 @@ var game = (function () {
                 util.randomInt(10, cjGame.width / 2 - 150),
                 util.randomInt(cjGame.width / 2 - 150, cjGame.width / 2 + 150),
                 util.randomInt(cjGame.width / 2 + 150, cjGame.width - 70)
-            ]
+            ];
             var opts = [
                 {
                     sx: 160,
@@ -466,7 +445,7 @@ var game = (function () {
                     sHeight: 24,
                     alpha: 0,
                 }
-            ]
+            ];
 
             for (var i = 1, len = opts.length; i <= len; i++) {
                 var tmp = new ig.Bitmap({
@@ -482,23 +461,13 @@ var game = (function () {
                     sHeight: opts[i - 1].sHeight,
                     alpha: opts[i - 1].alpha,
                     zIndex: 10,
-                    vx: -1,
+                    vx: -0.3,
                 });
-                tmp.setAnimate({
-                    target: {
-                        alpha: 1
-                    },
-                    duration: 2000,
-                });
+
+                _setAnimate.call(tmp);
 
                 tmp.step = function (dt, stepCount, requestID) {
-                    this.vx += this.ax * dt;
-                    this.vx *= this.frictionX * dt;
-                    this.vy += this.ay * dt;
-                    this.vy *= this.frictionY * dt;
-
-                    this.x += this.vx * dt;
-                    this.y += this.vy * dt;
+                    _step.call(this, dt, stepCount, requestID);
 
                     if (this.x + this.width < 0) {
                         if (this.name.indexOf('_1') > -1) {
@@ -514,7 +483,6 @@ var game = (function () {
                             this.setStatus(STATUS.DESTROYED);
                         }
                     }
-                    this.move(this.x, this.y);
                 };
 
                 cjStage.addDisplayObject(tmp);
@@ -546,9 +514,9 @@ var game = (function () {
         });
         hillMain.setAnimate({
             target: {
-                alpha: 1
+                alpha: 0.5
             },
-            duration: 2000,
+            duration: 1000,
             completeFunc: function () {
             }
         });
@@ -578,14 +546,197 @@ var game = (function () {
         });
         brushwoodMain.setAnimate({
             target: {
-                alpha: 1
+                alpha: 0.5
             },
-            duration: 2000,
+            duration: 1000,
             completeFunc: function () {
             }
         });
         return brushwoodMain;
     }
+
+    /**
+     * 创建背景水管
+     *
+     * @return {Object} 水管对象
+     */
+    function createWaterpipe() {
+        var waterpipeMain = new ig.Bitmap({
+            name: 'waterpipeMain_1',
+            asset: cjGame.asset.spritesImg1,
+            x: 420,
+            y: 350,
+            sx: 614,
+            sy: 46,
+            width: 32,
+            sWidth: 32,
+            height: 33,
+            sHeight: 33,
+            zIndex: 9,
+            scaleY: 1.5,
+        });
+        waterpipeMain.setAnimate({
+            target: {
+                y: 296
+            },
+            duration: 1500,
+            completeFunc: function () {
+                mario = createMario();
+            }
+        });
+        return waterpipeMain;
+    }
+
+    /**
+     * 创建马里奥
+     *
+     * @return {Object} 马里奥对象
+     */
+    function createMario() {
+        var marioMain = cjStage.addDisplayObject(
+            new ig.SpriteSheet({
+                name: 'marioMain',
+                asset: cjGame.asset.spritesImg1,
+                sheetData: cjGame.asset.spritesData1.marioMove,
+                x: 0,
+                y: 320,
+                zIndex: 11,
+                jumpFrames: 5,
+                vx: 1,
+                // debug: 1
+            })
+        );
+
+        marioMain.step = function (dt, stepCount, requestID) {
+            this.vx += this.ax * dt;
+            this.vx *= this.frictionX * dt;
+            this.vy += this.ay * dt;
+            this.vy *= this.frictionY * dt;
+
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+
+            this.move(this.x, this.y);
+
+            if (!this.isJump) {
+                if (this.x === cjGame.width / 3 + 33) {
+                    this.isJump = true;
+                    this.vx = 0.8;
+                    this.vy = -3;
+                    this.change(util.extend(true, {}, cjGame.asset.spritesData1.marioJump));
+                }
+            }
+            else {
+                if (this.y === 260 + this.height) {
+                    this.vy = 0;
+                    if (!cjStage.getDisplayObjectByName('mushroom')) {
+                        this.vx = 0;
+                        cjStage.addDisplayObject(
+                            createMushroom(function () {
+                                marioMain.vy = 3;
+                                marioMain.vx = 0.8;
+                            })
+                        );
+                    }
+                }
+                else if (this.y === 320) {
+                    this.isJump = false;
+                    this.vx = 0.8;
+                    this.vy = 0;
+                    this.change(util.extend(true, {}, cjGame.asset.spritesData1.marioMove));
+                }
+            }
+        };
+
+        return marioMain;
+    }
+
+    /**
+     * 创建蘑菇
+     *
+     * @return {Object} 蘑菇对象
+     */
+    function createMushroom(callback) {
+        var mushroom = new ig.Bitmap({
+            name: 'mushroom',
+            asset: cjGame.asset.spritesImg1,
+            x: cjGame.width / 3 + 47,
+            y: 248,
+            sx: 70,
+            sy: 42,
+            width: 18,
+            sWidth: 18,
+            height: 18,
+            sHeight: 18,
+            zIndex: 11,
+            scaleX: 0.2,
+            scaleY: 0.2,
+            // debug: 1
+        });
+
+        mushroom.step = function (dt, stepCount, requestID) {
+            this.vx += this.ax * dt;
+            this.vx *= this.frictionX * dt;
+            this.vy += this.ay * dt;
+            this.vy *= this.frictionY * dt;
+
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+
+            this.move(this.x, this.y);
+
+            if (this.x > cjGame.width / 3 + 64 + this.width / 2) {
+                this.vy = 1.5;
+            }
+
+            if (this.y === 320) {
+                this.vy = 0;
+            }
+
+            if (this.collidesWith(waterpipe)
+                && ((this.x + this.width) > waterpipe.x + 3)
+            ) {
+                this.vx = -this.vx;
+            }
+
+            if (mario && this.collidesWith(mario)
+                && ((mario.x + mario.width) > this.x + 3)
+            ) {
+                this.vx = 0;
+                mario.vx = 0;
+            }
+        };
+
+        mushroom.setAnimate({
+            target: {
+                scaleX: 1,
+                scaleY: 1,
+                y: 242
+            },
+            stepFunc: function (e) {
+                if (e.data.source.alpha === 1) {
+                    e.data.source.alpha = 0;
+                }
+                else {
+                    e.data.source.alpha = 1;
+                }
+            },
+            duration: 1000,
+            completeFunc: function (e) {
+                e.data.source.alpha = 1;
+                e.data.source.vx = 1;
+                callback();
+            }
+        });
+
+        return mushroom;
+    }
+
+    // 水管对象
+    var waterpipe;
+
+    // 马里奥对象
+    var mario;
 
     var exports = {};
 
@@ -617,14 +768,14 @@ var game = (function () {
             target: {
                 height: -336
             },
-            // duration: 7700,
-            duration: 1000,
+            duration: 7700,
+            // duration: 1000,
             completeFunc: function () {
                 cjStage.addDisplayObject(createHill());
                 cjStage.addDisplayObject(createBrushwood());
                 cjStage.addDisplayObject(cloudControl.create());
-                // cjStage.addDisplayObject(cloudControl.create2());
-                // cjStage.addDisplayObject(cloudControl.create1());
+                waterpipe = cjStage.addDisplayObject(createWaterpipe());
+
                 var brickMain = cjStage.addDisplayObject(brickControl.createMain(0, 260));
                 brickMain.setAnimate({
                     target: {

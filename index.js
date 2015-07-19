@@ -7,6 +7,7 @@ window.onload = function () {
     var cjContainer = $('.cj-container');
     var cjTrack = $('.cj-track');
     var cjMoveGuide = $('.cj-move-guide');
+    var cjMoveGuideArrow = $('.cj-move-guide-arrow');
 
     // var cjMoveGuideLeft = parseInt(cjMoveGuide.css('left'), 10);
     // var cjMoveGuideWidth = cjMoveGuide.width();
@@ -37,9 +38,13 @@ window.onload = function () {
         if (distance > 980 - 10) {
             isMove = false;
             $(document).off('mousemove', docMove);
-            // game.start(function () {
-            //     console.warn('start');
-            // });
+            game.start(function () {
+                console.warn('start');
+                cjContainer.css('display', 'none');
+                cjTrack.css('display', 'none');
+                cjMoveGuide.css('display', 'none');
+                cjMoveGuideArrow.css('display', 'none');
+            });
         }
         else {
             cjContainer.css({
@@ -49,7 +54,7 @@ window.onload = function () {
         }
     }
 
-    game.start(function () {
-        console.warn('start');
-    });
+    // game.start(function () {
+    //     console.warn('start');
+    // });
 };

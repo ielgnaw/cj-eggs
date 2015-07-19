@@ -1,0 +1,35 @@
+{
+    "marioMove": {
+        "sx": 82,
+        "sy": 506,
+        "cols": 3,
+        "rows": 1,
+        "total": 3,
+        "tileW": 17,
+        "tileH": 18,
+        "offsetX": 0,
+        "offsetY": 0
+    },
+    "marioStand": {
+        "sx": 21,
+        "sy": 506,
+        "cols": 1,
+        "rows": 1,
+        "total": 1,
+        "tileW": 17,
+        "tileH": 18,
+        "offsetX": 0,
+        "offsetY": 0
+    },
+    "marioJump": {
+        "sx": 140,
+        "sy": 506,
+        "cols": 1,
+        "rows": 1,
+        "total": 1,
+        "tileW": 17,
+        "tileH": 18,
+        "offsetX": 0,
+        "offsetY": 0
+    }
+}
