@@ -1,3 +1,8 @@
+/**
+ * @file 地面模块
+ * @author ielgnaw(wuji0223@gmail.com)
+ */
+
 /* global ig */
 
 'use strict';

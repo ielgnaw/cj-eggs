@@ -31,5 +31,27 @@
         "tileH": 18,
         "offsetX": 0,
         "offsetY": 0
+    },
+    "marioDead": {
+        "sx": 44,
+        "sy": 507,
+        "cols": 1,
+        "rows": 1,
+        "total": 1,
+        "tileW": 17,
+        "tileH": 18,
+        "offsetX": 0,
+        "offsetY": 0
+    },
+    "motor": {
+        "sx": 402,
+        "sy": 1090,
+        "cols": 4,
+        "rows": 1,
+        "total": 4,
+        "tileW": 30,
+        "tileH": 22,
+        "offsetX": 0,
+        "offsetY": 0
     }
 }

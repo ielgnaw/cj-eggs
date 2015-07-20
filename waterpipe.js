@@ -1,3 +1,8 @@
+/**
+ * @file 水管模块
+ * @author ielgnaw(wuji0223@gmail.com)
+ */
+
 /* global ig */
 
 'use strict';
