@@ -1,4 +1,4 @@
-/* global ig */
+/* global ig, groundControl, cloudControl, brickControl, waterpipeControl, hillAndBrushwoodControl */
 
 'use strict';
 
@@ -20,6 +20,7 @@ var game = (function () {
         maxHeight: 400,
         resource: [
             {id: 'spritesImg1', src: './img/sprites1.gif'},
+            {id: 'logo', src: './img/logo.png'},
             {id: 'spritesData1', src: './data/sprites1.json'}
         ]
     }).on('loadResProcess', function (e) {
@@ -37,6 +38,48 @@ var game = (function () {
         bgColor: 'transparent'
     });
 
+    var cjStage2 = cjGame.createStage({
+        name: 'cjStage2',
+        bgColor: 'transparent'
+    });
+
+    /**
+     * 创建 logo 的精灵，在 cjStage2 中
+     *
+     * @return {Object} logo 对象
+     */
+    function createLogo() {
+        var logoMain = new ig.Bitmap({
+            name: 'logoMain',
+            asset: cjGame.asset.logo,
+            x: 0,
+            y: 0,
+            sx: 0,
+            sy: 0,
+            width: cjGame.width,
+            sWidth: cjGame.width,
+            height: cjGame.height,
+            sHeight: cjGame.height,
+            zIndex: 9,
+            scaleX: 0.01,
+            scaleY: 0.01,
+            alpha: 0
+        });
+        logoMain.setAnimate({
+            target: {
+                scaleX: 1,
+                scaleY: 1,
+                alpha: 1
+            },
+            duration: 1500,
+            tween: ig.easing.easeOutBounce,
+            completeFunc: function () {
+                cjGame.stop();
+            }
+        });
+        cjStage2.addDisplayObject(logoMain);
+    }
+
     /**
      * 创建马里奥
      *
@@ -49,10 +92,11 @@ var game = (function () {
                 asset: cjGame.asset.spritesImg1,
                 sheetData: cjGame.asset.spritesData1.marioMove,
                 x: 0,
-                y: 320,
+                y: 303,
                 zIndex: 11,
-                jumpFrames: 5,
-                vx: 1
+                jumpFrames: 10,
+                vx: 1,
+                // debug: 1
             })
         );
 
@@ -80,7 +124,9 @@ var game = (function () {
                 }
             }
             else {
-                if (this.y === 260 + this.height) {
+                // console.warn(this.height);
+                // console.warn(this.y, 244 + this.height);
+                if (this.y === 244 + this.height) {
                     this.vy = 0;
                     if (!cjStage.getDisplayObjectByName('motor')) {
                         this.vx = 0;
@@ -92,7 +138,7 @@ var game = (function () {
                         );
                     }
                 }
-                else if (this.y === 320) {
+                else if (this.y === 303) {
                     this.isJump = false;
                     this.vx = 0.8;
                     this.vy = 0;
@@ -105,108 +151,6 @@ var game = (function () {
     }
 
     /**
-     * 创建蘑菇
-     *
-     * @return {Object} 蘑菇对象
-     */
-    // function createMushroom(callback) {
-    //     var mushroom = new ig.Bitmap({
-    //         name: 'mushroom',
-    //         asset: cjGame.asset.spritesImg1,
-    //         x: cjGame.width / 3 + 47,
-    //         y: 248,
-    //         sx: 70,
-    //         sy: 42,
-    //         width: 18,
-    //         sWidth: 18,
-    //         height: 18,
-    //         sHeight: 18,
-    //         zIndex: 11,
-    //         scaleX: 0.2,
-    //         scaleY: 0.2,
-    //         // debug: 1
-    //     });
-
-    //     mushroom.step = function (dt, stepCount, requestID) {
-    //         this.vx += this.ax * dt;
-    //         this.vx *= this.frictionX * dt;
-    //         this.vy += this.ay * dt;
-    //         this.vy *= this.frictionY * dt;
-
-    //         this.x += this.vx * dt;
-    //         this.y += this.vy * dt;
-
-    //         this.move(this.x, this.y);
-
-    //         if (this.x > cjGame.width / 3 + 64 + this.width / 2) {
-    //             this.vy = 1.5;
-    //         }
-
-    //         if (this.y === 320) {
-    //             this.vy = 0;
-    //         }
-
-    //         if (this.collidesWith(waterpipe)
-    //             && ((this.x + this.width) > waterpipe.x + 3)
-    //         ) {
-    //             this.vx = -this.vx;
-    //         }
-
-    //         if (mario && this.collidesWith(mario)
-    //             && ((mario.x + mario.width) > this.x + 3)
-    //             && !mario.isDead
-    //         ) {
-    //             this.vx = 0;
-    //             mario.vx = 0;
-    //             mario.change(util.extend(true, {}, cjGame.asset.spritesData1.marioDead));
-    //             mario.isDead = true;
-    //             mario.setAnimate({
-    //                 target: {
-    //                     y: mario.y - 70
-    //                 },
-    //                 duration: 300,
-    //                 completeFunc: function (e) {
-    //                     mario.setAnimate({
-    //                         target: {
-    //                             y: mario.y + 70 + 64 + mario.height
-    //                         },
-    //                         duration: 500,
-    //                         completeFunc: function (e) {
-    //                             mario.setStatus(STATUS.DESTROYED);
-    //                             gameOver();
-    //                         }
-    //                     })
-    //                 }
-    //             })
-    //         }
-    //     };
-
-    //     mushroom.setAnimate({
-    //         target: {
-    //             scaleX: 1,
-    //             scaleY: 1,
-    //             y: 242
-    //         },
-    //         stepFunc: function (e) {
-    //             if (e.data.source.alpha === 1) {
-    //                 e.data.source.alpha = 0;
-    //             }
-    //             else {
-    //                 e.data.source.alpha = 1;
-    //             }
-    //         },
-    //         duration: 1000,
-    //         completeFunc: function (e) {
-    //             e.data.source.alpha = 1;
-    //             e.data.source.vx = 2;
-    //             callback();
-    //         }
-    //     });
-
-    //     return mushroom;
-    // }
-
-    /**
      * 创建摩托
      *
      * @return {Object} 摩托对象
@@ -217,7 +161,7 @@ var game = (function () {
                 name: 'motor',
                 asset: cjGame.asset.spritesImg1,
                 sheetData: cjGame.asset.spritesData1.motor,
-                x: cjGame.width / 3 + 43,
+                x: cjGame.width / 3 + 40,
                 y: 248,
                 zIndex: 11,
                 jumpFrames: 5,
@@ -241,8 +185,8 @@ var game = (function () {
             if (this.x > cjGame.width / 3 + 64 + this.width / 2) {
                 this.vy = 1.5;
             }
-            // console.warn(this.y);
-            if (this.y === 314.5) {
+
+            if (this.y === 308.5) {
                 this.vy = 0;
             }
 
@@ -250,11 +194,11 @@ var game = (function () {
                 && ((this.x + this.width) > waterpipe.x + 3)
             ) {
                 this.vx = -this.vx;
-                this.scaleX = -1;
+                this.scaleX = -this.scaleX;
             }
 
             if (mario && this.collidesWith(mario)
-                && ((mario.x + mario.width) > this.x + 10)
+                && ((mario.x + mario.width) > this.x + 5)
                 && !mario.isDead
             ) {
                 this.vx = 0;
@@ -276,17 +220,17 @@ var game = (function () {
                                 mario.setStatus(STATUS.DESTROYED);
                                 gameOver();
                             }
-                        })
+                        });
                     }
-                })
+                });
             }
         };
 
         motor.setAnimate({
             target: {
-                scaleX: 1,
-                scaleY: 1,
-                y: 238
+                scaleX: 1.5,
+                scaleY: 1.5,
+                y: 232
             },
             stepFunc: function (e) {
                 if (e.data.source.alpha === 1) {
@@ -335,8 +279,22 @@ var game = (function () {
                 this.angle = 0;
                 setTimeout(function () {
                     cjGame.stop();
-                }, 0)
-                // this.setStatus(STATUS.DESTROYED);
+
+                    canvas[0].style.opacity = 1;
+                    var anim = new ig.Animation({
+                        source: canvas[0].style,
+                        target: {
+                            opacity: 0
+                        },
+                        jumpFrames: 2
+                    });
+                    anim.play().on('complete', function (e) {
+                        canvas[0].style.opacity = 1;
+                        cjGame.start('cjStage2');
+                        createLogo();
+                    });
+
+                }, 0);
             }
             else {
                 this.angle += 20;
@@ -408,8 +366,8 @@ var game = (function () {
             target: {
                 height: -336
             },
-            // duration: 7700,
-            duration: 1000,
+            duration: 7700,
+            // duration: 1000,
             completeFunc: function () {
                 cjStage.addDisplayObject(hillAndBrushwoodControl.createHill());
                 cjStage.addDisplayObject(hillAndBrushwoodControl.createBrushwood());
@@ -432,7 +390,6 @@ var game = (function () {
                 });
             }
         });
-
     };
 
     return exports;

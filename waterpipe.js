@@ -31,7 +31,7 @@ var waterpipeControl = (function () {
         var waterpipeMain = new ig.Bitmap({
             name: 'waterpipeMain',
             asset: cjGame.asset.spritesImg1,
-            x: 420,
+            x: 470,
             y: 350,
             sx: 614,
             sy: 46,
