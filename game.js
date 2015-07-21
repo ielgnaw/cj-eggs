@@ -27,8 +27,8 @@ var game = (function () {
     }).on('loadResDone', function (e) {
         gameContainer.css({
             position: 'absolute',
-            // top: ($(window).height() - $(gameContainer).height()) / 2 ,
-            top: parseInt($('.cj-move-guide').css('top'), 10) - game.height,
+            // top: parseInt($('.cj-move-guide').css('top'), 10) - game.height,
+            top: 0,
             left: ($(window).width() - $(gameContainer).width()) / 2
         });
     });
